@@ -1,10 +1,13 @@
+import 'package:Todo/models/task.dart';
+import 'package:Todo/Screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  const AddTaskScreen({Key key}) : super(key: key);
-
+  AddTaskScreen({this.fb});
+  final Function fb;
   @override
   Widget build(BuildContext context) {
+    String newtext;
     return Container(
       color: Color(0xff757575),
       child: Container(
@@ -30,12 +33,17 @@ class AddTaskScreen extends StatelessWidget {
             TextField(
               autofocus: true,
               textAlign: TextAlign.center,
+              onChanged: (value) {
+                newtext = value;
+              },
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.007,
             ),
             FlatButton(
-              onPressed: () {},
+              onPressed: () {
+                fb(newtext);
+              },
               child: Text(
                 'Add',
                 style: TextStyle(color: Colors.white),
