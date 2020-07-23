@@ -1,22 +1,10 @@
 import 'package:Todo/Screens/addTaskscreen.dart';
-import 'package:Todo/models/task.dart';
+import 'package:Todo/models/task_data.dart';
 import 'package:Todo/widgets/tasks_lists.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class TasksScreen extends StatefulWidget {
-  TasksScreen({Key key}) : super(key: key);
-
-  @override
-  _TasksScreenState createState() => _TasksScreenState();
-}
-
-class _TasksScreenState extends State<TasksScreen> {
-  List<Task> tasks = [
-    Task(name: 'Buy milk'),
-    Task(name: 'eggs'),
-    Task(name: 'Bread'),
-  ];
-  String tasktx;
+class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +38,8 @@ class _TasksScreenState extends State<TasksScreen> {
                       fontWeight: FontWeight.w700),
                 ),
                 Text(
-                  tasks.length.toString() + ' Tasks',
+                  Provider.of<Taskdata>(context).taskCount.toString() +
+                      ' Tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -69,9 +58,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   topRight: Radius.circular(20),
                 ),
               ),
-              child: TasksList(
-                tasks: tasks,
-              ),
+              child: TasksList(),
             ),
           ),
         ],
@@ -81,18 +68,7 @@ class _TasksScreenState extends State<TasksScreen> {
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            builder: (context) => AddTaskScreen(
-              fb: (value) {
-                setState(
-                  () {
-                    tasks.add(
-                      Task(name: value),
-                    );
-                  },
-                );
-                Navigator.pop(context);
-              },
-            ),
+            builder: (context) => AddTaskScreen(),
           );
         },
         child: Icon(Icons.add),
